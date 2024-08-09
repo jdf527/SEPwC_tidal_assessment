@@ -170,21 +170,28 @@ def get_longest_contiguous_data(data):
 
 
 if __name__ == '__main__':
-
     parser = argparse.ArgumentParser(
-                     prog="UK Tidal analysis",
-                     description="Calculate tidal constiuents and RSL from tide gauge data",
-                     epilog="Copyright 2024, Jon Hill"
-                     )
+        prog="UK Tidal Analysis",
+        description="Calculate tidal constituents and RSL from tide gauge data",
+        epilog="Copyright 2024, jdf527 @ The University of York"
+        )
 
     parser.add_argument("directory",
-                    help="the directory containing txt files with data")
+                        help="The directory containing txt files with data")
     parser.add_argument('-v', '--verbose',
-                    action='store_true',
-                    default=False,
-                    help="Print progress")
+                        action='store_true',
+                        default=False,
+                        help="Print progress")
 
     args = parser.parse_args()
     dirname = args.directory
     verbose = args.verbose
+
+    dataframe = read_tidal_data(dirname)
+    
+    amplitude, phase = tidal_analysis(dataframe, ['M2', 'S2'], dataframe.index.min())
+    print("Tidal constituents for {}: Amplitude: {}, Phase: {}".format(dirname, amplitude, phase))
+    
+    slope, p_value = sea_level_rise(dataframe)
+    print(f"Sea level rise: Slope: {slope}, p-value: {p_value}")
     
