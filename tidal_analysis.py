@@ -173,7 +173,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         prog="UK Tidal Analysis",
         description="Calculate tidal constituents and RSL from tide gauge data",
-        epilog="Copyright 2024, jdf527 @ The University of York"
+        epilog="Copyright 2024, Jack Redman"
         )
 
     parser.add_argument("directory",
