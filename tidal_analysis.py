@@ -47,15 +47,40 @@ def read_tidal_data(filename):
     return combined_data
     
 def extract_single_year_remove_mean(year, data):
-   
-
-    return 
+    """
+    Extracts data for a single year and removes the mean sea level.
+    
+    Parameters:
+    year: The year to extract.
+    data: DataFrame containing tidal data.
+    
+    Returns:
+    pd.DataFrame: DataFrame with mean sea level removed for the specified year.
+    """
+    year_data = data[data.index.year == int(year)].copy()
+    mean_sea_level = year_data['Sea Level'].mean()
+    year_data['Sea Level'] -= mean_sea_level
+    
+    return year_data
 
 
 def extract_section_remove_mean(start, end, data):
-
-
-    return 
+    """
+    Extracts a section of data and removes the mean sea level.
+    
+    Parameters:
+    start: Start date of the data section.
+    end: End date of the data section.
+    data: DataFrame containing tidal data.
+    
+    Returns:
+    pd.DataFrame: DataFrame with mean sea level removed for the section.
+    """
+    section_data = data.loc[start:end].copy()
+    mean_sea_level = section_data['Sea Level'].mean()
+    section_data['Sea Level'] -= mean_sea_level
+    
+    return section_data
 
 
 def join_data(data1, data2):
