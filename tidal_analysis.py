@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 from scipy.stats import linregress
 from matplotlib import dates as mdates
-import uptide
 
 def read_tidal_data(filename):
 
