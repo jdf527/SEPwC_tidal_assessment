@@ -9,8 +9,42 @@ from scipy.stats import linregress
 from matplotlib import dates as mdates
 
 def read_tidal_data(filename):
+    """
+    Reads tidal data from file and returns a DataFrame.
+    
+    Parameters:
+    filename Path to the tidal data file containing files.
+    
+    Returns:
+    pd.DataFrame: DataFrame containing tidal data with a datetime index and Sea Level as a float.
+    """
+    data = []
+    if os.path.isdir(filename):
+        # If a directory is provided, read all files within the directory
+        filenames = [os.path.join(filename, f)
+                     for f in os.listdir(filename) if f.endswith(".txt")]
+    else:
+        # If a single file is provided, use that file
+        filenames = [filename]
 
-    return 0
+    for filename in filenames:
+        df = pd.read_table(filename, delim_whitespace=True, skiprows=11,
+                           names=['Cycle', 'Date', 'Time', 'Sea Level', 'Residual'])
+        
+        df['Time'] = pd.to_datetime(df['Date'] + ' ' + df['Time'], format='%Y/%m/%d %H:%M:%S')
+        df.set_index('Time', inplace=True)
+
+        # Replace values ending in M, N, or T with NaN
+        df.replace(to_replace=".*[MNT]$", value={'Sea Level': np.nan}, regex=True, inplace=True)
+        df['Sea Level'] = df['Sea Level'].astype(float)
+
+        data.append(df)
+    
+    # Combine all data if reading from a directory
+    combined_data = pd.concat(data) if len(data) > 1 else data[0]
+    combined_data.sort_index(inplace=True)
+    
+    return combined_data
     
 def extract_single_year_remove_mean(year, data):
    
