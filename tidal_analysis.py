@@ -24,14 +24,14 @@ def read_tidal_data(filename):
     if os.path.isdir(filename):
         # If a directory is provided, read all files within the directory
         filenames = [os.path.join(filename, f)
-                     for f in os.listdir(filename) if f.endswith(".txt")]
+            for f in os.listdir(filename) if f.endswith(".txt")]
     else:
         # If a single file is provided, use that file
         filenames = [filename]
 
     for filename in filenames:
         df = pd.read_table(filename, delim_whitespace=True, skiprows=11,
-                           names=['Cycle', 'Date', 'Time', 'Sea Level', 'Residual'])
+            names=['Cycle', 'Date', 'Time', 'Sea Level', 'Residual'])
         
         df['Time'] = pd.to_datetime(df['Date'] + ' ' + df['Time'], format='%Y/%m/%d %H:%M:%S')
         df.set_index('Time', inplace=True)
@@ -177,11 +177,11 @@ if __name__ == '__main__':
         )
 
     parser.add_argument("directory",
-                        help="The directory containing txt files with data")
+        help="The directory containing txt files with data")
     parser.add_argument('-v', '--verbose',
-                        action='store_true',
-                        default=False,
-                        help="Print progress")
+        action='store_true',
+        default=False,
+        help="Print progress")
 
     args = parser.parse_args()
     dirname = args.directory
