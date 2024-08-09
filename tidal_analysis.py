@@ -123,15 +123,50 @@ def sea_level_rise(data):
 
 
 def tidal_analysis(data, constituents, start_datetime):
-
-
-    return 
+    """
+    Performs harmonic analysis on tidal data.
+    
+    Parameters:
+    data: DataFrame containing tidal data.
+    constituents: List of tidal constituents.
+    start_datetime: Start datetime for the analysis.
+    
+    Returns:
+    tuple: Amplitudes and phases of the tidal constituents.
+    """
+    tide = uptide.Tides(constituents)
+    tide.set_initial_time(start_datetime)
+    
+    seconds_since = (data.index - start_datetime).total_seconds().to_numpy()
+    sea_level_data = data['Sea Level'].to_numpy()
+    
+    # Remove NaN values
+    valid_data = pd.notna(sea_level_data)
+    sea_level_data = sea_level_data[valid_data]
+    seconds_since = seconds_since[valid_data]
+    
+    amp, pha = uptide.harmonic_analysis(tide, sea_level_data, seconds_since)
+    
+    return amp, pha
 
 
 def get_longest_contiguous_data(data):
-
-
-    return 
+    """
+    Identifies the longest contiguous segment of data based on 'Sea Level'.
+    
+    Parameters:
+    data: DataFrame containing tidal data with 'Sea Level' column.
+    
+    Returns:
+    pd.DataFrame: The longest contiguous segment of tidal data.
+    """
+    valid_data_mask = data['Sea Level'].notna()
+    blocks = valid_data_mask.astype(int).diff().fillna(0).ne(0).cumsum()
+    
+    filtered_data = data[valid_data_mask]
+    longest_block = filtered_data.groupby(blocks[valid_data_mask]).size().idxmax()
+    
+    return filtered_data[blocks[valid_data_mask] == longest_block]
 
 
 if __name__ == '__main__':
