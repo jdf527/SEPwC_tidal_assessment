@@ -9,6 +9,7 @@ import pandas as pd
 from scipy.stats import linregress
 from matplotlib import dates as mdates
 
+
 def read_tidal_data(filename):
     """
     Reads tidal data from file and returns a DataFrame.
@@ -46,7 +47,8 @@ def read_tidal_data(filename):
     combined_data.sort_index(inplace=True)
     
     return combined_data
-    
+
+
 def extract_single_year_remove_mean(year, data):
     """
     Extracts data for a single year and removes the mean sea level.
@@ -99,7 +101,6 @@ def join_data(data1, data2):
     combined_data.sort_index(inplace=True)
     
     return combined_data
-    
 
 
 def sea_level_rise(data):
@@ -107,15 +108,18 @@ def sea_level_rise(data):
                                                      
     return 
 
+
 def tidal_analysis(data, constituents, start_datetime):
 
 
     return 
 
+
 def get_longest_contiguous_data(data):
 
 
     return 
+
 
 if __name__ == '__main__':
 
@@ -136,5 +140,3 @@ if __name__ == '__main__':
     dirname = args.directory
     verbose = args.verbose
     
-
-
