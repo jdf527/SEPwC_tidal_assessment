@@ -3,6 +3,7 @@
 # necessary modules imported
 import argparse
 import os
+import uptide
 import numpy as np
 import pandas as pd
 from scipy.stats import linregress
