@@ -104,9 +104,22 @@ def join_data(data1, data2):
 
 
 def sea_level_rise(data):
-
-                                                     
-    return 
+    """
+    Performs linear regression to calculate sea level rise.
+    
+    Parameters:
+    data: DataFrame containing tidal data.
+    
+    Returns:
+    tuple: Slope and p-value from the linear regression.
+    """
+    clean_data = data.dropna(subset=["Sea Level"])
+    x_value = mdates.date2num(clean_data.index)
+    y_value = clean_data["Sea Level"]
+    
+    slope, _, _, _, p_value = linregress(x_value, y_value)
+    
+    return slope, p_value
 
 
 def tidal_analysis(data, constituents, start_datetime):
