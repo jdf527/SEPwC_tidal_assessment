@@ -85,9 +85,21 @@ def extract_section_remove_mean(start, end, data):
 
 
 def join_data(data1, data2):
-
-    return 
-
+    """
+    Joins two DataFrames containing tidal data.
+    
+    Parameters:
+    data1: First DataFrame.
+    data2: Second DataFrame.
+    
+    Returns:
+    pd.DataFrame: Combined DataFrame.
+    """
+    combined_data = pd.concat([data1, data2])
+    combined_data.sort_index(inplace=True)
+    
+    return combined_data
+    
 
 
 def sea_level_rise(data):
